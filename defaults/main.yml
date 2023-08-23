@@ -1,2 +1,13 @@
 ---
 # defaults file for ansible-role-rhel8-satellite
+online_instance: false
+satellite_iso_mount_src: /dev/sr0
+satellite_organization: "SomeOrganization"
+satellite_location: "SomeLocation"
+satellite_initial_admin_user: "SomeAdmin"
+satellite_initial_admin_password: "ChangeMeT0@g00dPassW0rdNow!"
+
+##
+# "Safe" Defaults
+##
+satellite_iso_mount_point: /media/sat6

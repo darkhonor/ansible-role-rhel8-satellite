@@ -1,2 +1,49 @@
 ---
 # tasks file for ansible-role-rhel8-satellite
+- name: Install prerequisite software
+  ansible.builtin.dnf:
+    name: '{{ item }}'
+    disable_gpg_check: false
+    sslverify: '{{ verify_repository_ssl }}'
+    state: present
+  with_items:
+    - chrony
+    - sos
+- name: Enable chronyd Service
+  ansible.builtin.service:
+    name: chronyd
+    enabled: true
+    immediate: true
+- name: Open required Firewall ports
+  ansible.posix.firewalld:
+    port: '{{ item }}'
+    permanent: true
+    immediate: true
+    state: enabled
+  with_items:
+    - "53/udp"
+    - "53/tcp"
+    - "67/udp"
+    - "69/udp"
+    - "80/tcp"
+    - "443/tcp"
+    - "5647/tcp"
+    - "8000/tcp"
+    - "9090/tcp"
+    - "8140/tcp"
+- name: Mount Satellite Server ISO
+  ansible.posix.mount:
+    path: '{{ satellite_iso_mount_point }}'
+    src: '{{ satellite_iso_mount_src }}'
+    fstype: iso9660
+    opts: ro,noauto
+    state: ephemeral
+- name: 2.7-Install Satellite Server
+- name: Unmount Satellite Server ISO
+  ansible.posix.mount:
+    path: '{{ satellite_iso_mount_point }}'
+    state: absent
+- name: 2.8-Disable Subscription Connection
+  ansible.builtin.command: hammer settings set --name subscription_connection_enabled --value false
+  when:
+    - not online_instance
