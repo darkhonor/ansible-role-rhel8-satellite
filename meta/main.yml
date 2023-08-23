@@ -1,0 +1,22 @@
+galaxy_info:
+  author: Alex Ackerman
+  description: Ansible Role to Install Red Hat Satellite Server 6
+  role_name: satellite
+
+  # issue_tracker_url: http://example.com/issue/tracker
+
+  license: MIT
+
+  min_ansible_version: '2.13'
+
+  platforms:
+    - name: EL
+      versions:
+        - '8'
+
+  galaxy_tags:
+    - redhat
+    - satellite
+    - rhel
+
+dependencies: []
