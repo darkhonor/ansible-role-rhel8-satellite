@@ -35,10 +35,10 @@
   ansible.posix.mount:
     path: '{{ satellite_iso_mount_point }}'
     src: '{{ satellite_iso_mount_src }}'
-    fstype: iso9660
-    opts: ro,noauto
+    fstype: '{{ satellite_iso_mount_fstype }}'
+    opts: '{{ satellite_iso_mount_opts }}'
     state: ephemeral
-- name: 2.7-Install Satellite Server
+# - name: 2.7-Install Satellite Server
 - name: Unmount Satellite Server ISO
   ansible.posix.mount:
     path: '{{ satellite_iso_mount_point }}'

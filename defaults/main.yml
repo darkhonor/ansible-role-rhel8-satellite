@@ -11,3 +11,5 @@ satellite_initial_admin_password: "ChangeMeT0@g00dPassW0rdNow!"
 # "Safe" Defaults
 ##
 satellite_iso_mount_point: /media/sat6
+satellite_iso_mount_fstype: iso9660
+satellite_iso_mount_opts: ro,noauto
