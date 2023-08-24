@@ -1,5 +1,9 @@
 ---
 # tasks file for ansible-role-rhel8-satellite
+- name: Update system Packages
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
 - name: Install prerequisite software
   ansible.builtin.dnf:
     name: '{{ item }}'
@@ -38,7 +42,17 @@
     fstype: '{{ satellite_iso_mount_fstype }}'
     opts: '{{ satellite_iso_mount_opts }}'
     state: ephemeral
-# - name: 2.7-Install Satellite Server
+- name: Install Satellite Server Packages
+  ansible.builtin.command: "{{ satellite_iso_mount_point}}/install_packages"
+- name: Configure Satellite Installation
+  ansible.builtin.command:
+    argv:
+      - satellite-installer
+      - --scenario satellite
+      - --foreman-initial-organization "{{ satellite_organization }}"
+      - --foreman-initial-location "{{ satellite_location }}"
+      - --foreman-initial-admin-username '{{ satellite_initial_admin_user }}'
+      - --foreman-initial-admin-password '{{ satellite_initial_admin_password }}'
 - name: Unmount Satellite Server ISO
   ansible.posix.mount:
     path: '{{ satellite_iso_mount_point }}'
